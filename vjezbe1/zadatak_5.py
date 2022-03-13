@@ -25,7 +25,8 @@ pravac()
 
 def pdf():
     pitanje=input('želite li spremiti kao pdf? ')
-    if pitanje==str('da'):
-        zadatak=plt.savefig(zadatak_5.pdf)
+    if pitanje==('da'):
+        zadatak=('{}.pdf'.format(ime))
+        plt.savefig(zadatak)
 pdf()
 
