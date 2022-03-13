@@ -18,7 +18,7 @@ def pravac():
         print('pravac koji prolazi točkama O i P je: y= ',k,'x+',b)
     
     
-    slika=plt.plot(k,b)
+    slika=plt.plot(O,P)
     plt.show()
     return slika
 pravac()
