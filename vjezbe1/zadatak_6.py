@@ -33,8 +33,8 @@ def graf():
 graf()
 
 def spremanje():
-  upit=insert('zelite li spremiti? ')
+  upit=input('zelite li spremiti? ')
   if upit=='da':
-    filename=('{}.pdf'.format(stagod))
+    filename=('{}.pdf'.format())
     plt.savefig(filename)
 spremanje()
