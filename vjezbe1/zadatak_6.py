@@ -1,3 +1,4 @@
+from fileinput import filename
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -30,3 +31,10 @@ def graf():
   plt.show()
 
 graf()
+
+def spremanje():
+  upit=insert('zelite li spremiti? ')
+  if upit=='da':
+    filename=('{}.pdf'.format(stagod))
+    plt.savefig(filename)
+spremanje()

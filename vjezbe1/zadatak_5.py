@@ -1,3 +1,4 @@
+from fileinput import filename
 import matplotlib.pyplot as plt
 
 x=int(input('unesite x: '))
@@ -26,7 +27,7 @@ pravac()
 def pdf():
     pitanje=input('želite li spremiti kao pdf? ')
     if pitanje==('da'):
-        zadatak=('{}.pdf'.format(ime))
-        plt.savefig(zadatak)
+        filename=('{}.pdf'.format(ime))
+        plt.savefig(filename)
 pdf()
 
