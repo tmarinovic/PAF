@@ -9,7 +9,7 @@ q,w=[int(x) for x in input('unesite koordinate sredista: ').split()]
 r=int(input('unesite radijus: '))
 
 def polozaj():
-  d =math.sqrt((x-q)**2+(y-w)**2)
+  d =math.sqrt((q-x)**2+(w-y)**2)
 
   if r>d:
     print("tocka se nalazi unutar kruznice")
