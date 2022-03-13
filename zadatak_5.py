@@ -26,11 +26,6 @@ pravac()
 def pdf():
     pitanje=input('želite li spremiti kao pdf? ')
     if pitanje==str('da'):
-        from fpdf import FPDF
-        pdf = FPDF(zadatak_5.py)
-        pdf.add_page()
-        pdf.set_font("Arial", size=14)
-        pdf.cell(200, 10, txt="", ln=1, align="L")
-        pdf.output("python.pdf")
+        zadatak=plt.savefig(zadatak_5.pdf)
 pdf()
 
