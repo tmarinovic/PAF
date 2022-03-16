@@ -1,15 +1,13 @@
 from fileinput import filename
 import matplotlib.pyplot as plt
 
-x=int(input('unesite x: '))
-y=int(input('unesite y: '))
-q=int(input('unesite q: '))
-w=int(input('uneiste w: '))
 
-O=[x,y]
-P=[q,w]
 
-def pravac():
+
+def pravac(x,y,q,w):
+    O=[x,y]
+    P=[q,w]
+
     k=(w-y)/(q-x)
     b=y-(k*x)
     
@@ -19,15 +17,17 @@ def pravac():
         print('pravac koji prolazi točkama O i P je: y= ',k,'x+',b)
     
     
-    slika=plt.plot(O,P)
+    plt.plot(O,P)
+    plt.plot(x,y,'s')
+    plt.plot(q,w,'s')
     plt.show()
-    return slika
-pravac()
+    
+pravac(1,2,3,4)
 
 def pdf():
     pitanje=input('želite li spremiti kao pdf? ')
     if pitanje==('da'):
-        filename=('{}.pdf'.format(ime))
+        filename=('{}.pdf'.format('ime'))
         plt.savefig(filename)
 pdf()
 

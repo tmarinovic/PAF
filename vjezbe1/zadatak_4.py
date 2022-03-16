@@ -1,8 +1,5 @@
-x,y=[int(s) for s in input('unesite x i y: ').split()]
-q,w=[int(t) for t in input('unesite q i w: ').split()]
 
-
-def pravac():
+def pravac(x,y,q,w):
     k=(w-y)/(q-x)
     b=y-(k*x)
     
@@ -11,7 +8,7 @@ def pravac():
     else:
         print('pravac koji prolazi točkama O i P je: y= ',k,'x+',b)
 
-pravac()
+pravac(1,2,3,4)
 
 
         
