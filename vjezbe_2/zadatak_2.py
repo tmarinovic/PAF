@@ -7,7 +7,7 @@ dt=0.01
 
 def kosi_hitac(v0,alfa):
 
-    kut=alfa*np.pi/100
+    kut=alfa*np.pi/180
     x_list=[]
     y_list=[]
     
