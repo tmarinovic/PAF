@@ -1,3 +1,5 @@
+#bijedni ali vrijedni pokusaji :D
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -39,25 +41,75 @@ kosi_hitac(3,6)
 
 def max_visina(v0,alfa):
   dt=0.01
-  g=-9.81
+  a=-9.81
+  y=0
   
   kut=alfa*np.pi/180
   
-  voy=v0*np.sin(kut)
-  vy=voy-g*dt
-
-  hmax=-((vy**2) / (2*g))
-  return hmax
-max_visina(6,45)
+  vy=v0*np.sin(kut)
+  
+  while True:
+    vy=vy + a*dt
+    if vy <=0:
+      break
+    y= y+vy*dt
+  return y
+max_visina(6,45,0)
 
 def domet(v0,alfa):
-  dt=0.01
   g=-9.81
   
   kut=alfa*np.pi/180
 
   D=-((v0**2/g)*np.sin(2*kut))
+  return D
 domet(6,67)
+
+def max_visina(v0,alfa,y):
+  dt=0.01
+  a=-9.81
+  
+  
+  kut=alfa*np.pi/180
+  
+  vy=v0*np.sin(kut)
+  
+  while True:
+    vy=vy + a*dt
+    if vy <=0:
+      break
+    y= y+vy*dt
+  return y
+max_visina(6,45,0)
+
+def max_brzina(v0,alfa,y):
+  kut=alfa*np.pi/180
+
+  vx=v0*np.cos(kut)
+  vy=v0*np.sin(kut)
+
+  x=0
+  dt=0.01
+  a=-9.81
+
+  while True:
+    x = x+ vx*dt
+    vy = vy + a*dt
+    y = y + vy*dt
+
+    if y<=0:
+      break
+
+  max_v=np.sqrt(vx**2 + vy**2)
+  return max_v
+max_brzina(30,68,0)
+
+
+
+
+
+
+
 
 
 

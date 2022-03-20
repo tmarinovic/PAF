@@ -32,7 +32,20 @@ def kosi_hitac(v0,alfa):
     fig, axs=plt.subplots(2,2)
 
     axs[0,0].plot(t,y_list)
+    axs[0,0].set_title('y-t graf')
+    axs[0,0].set_xlabel('$t | [s]$')
+    axs[0,0].set_ylabel('$y | [m]$')
+
     axs[0,1].plot(t,x_list)
+    axs[0,1].set_title('x-t graf')
+    axs[0,1].set_xlabel('$t | [s]$')
+    axs[0,1].set_ylabel('$x | [m]$')
+
     axs[1,0].plot(y_list,x_list)
+    axs[0,0].set_title('x-y graf')
+    axs[0,0].set_xlabel('$y | [m]$')
+    axs[0,0].set_ylabel('$x | [m]$')
+
+
     plt.show()
 kosi_hitac(2,60)
