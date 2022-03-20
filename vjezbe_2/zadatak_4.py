@@ -104,6 +104,50 @@ def max_brzina(v0,alfa,y):
   return max_v
 max_brzina(30,68,0)
 
+def polozaj(q,w,r):
+    dt=0.01
+    v0=30
+    alfa=67
+
+    kut=alfa*np.pi/180
+    
+    x_list=[]
+    y_list=[]
+    
+    x=0
+    y=0
+    
+    ax=0
+    ay=-9.81
+
+    for i in range(100):
+      
+      vx=v0*np.cos(kut)
+      vy=v0*np.sin(kut)
+
+      x=x+vx*dt
+      x_list.append(x)
+      y=y+vy*dt-1/2*ay*dt*dt
+      y_list.append(y)
+
+
+    d=math.sqrt((x-q)**2+(y-w)**2)
+
+
+    if r>d:
+     print("meta pogodjena")
+    elif d==0:
+      print("meta okrznuta")
+    elif r<d:
+      print("meta nije pogodjena")
+
+    an = np.linspace(0, 2 * np.pi, 100)
+    plt.plot(r* np.cos(an)+q, r * np.sin(an)+w)
+    plt.axis('equal')
+    plt.plot(x,y,'s')
+    plt.show()
+polozaj(3,4,5)
+
 
 
 
