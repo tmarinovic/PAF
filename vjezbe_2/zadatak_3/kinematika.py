@@ -23,37 +23,52 @@ def jednoliko_gibanje(sila,masa):
     axs[1,0].plot(t,np.repeat(a,100))
     plt.show()
 
-def kosi_hitac(v0,alfa):
-
+def kosi_hitac(v0, alfa, x, y):
     t=np.linspace(0,10,100)
-    dt=0.01
+    dt = 0.01
+    vox = v0*math.cos(math.radians(alfa))
+    voy = v0*math.sin(math.radians(alfa))
 
-    kut=alfa*np.pi/180
-    x_list=[]
-    y_list=[]
-    
-    x=0
-    y=0
-    vox=0
-    voy=0
-    ax=0
-    ay=-9.81
-
+    vox_lista = []
+    voy_lista = []
+    brzina = []
+    to = 0
+    t_lista = []
+    x_lista = []
+    y_lista = []
     for i in range(100):
-      
-      vox=v0*np.cos(kut)
-      voy=v0*np.sin(kut)
+        to = dt*i
+        t_lista.append(to)
+        
+        vox_lista.append(vox)
+        voy = voy - 9.81*dt
+        voy_lista.append(voy)
+        
+        v = math.sqrt(vox**2 + voy**2)
+        brzina.append(v)
+        x = x + vox*dt
+        x_lista.append(x)
+        y = y + voy*dt
+        y_lista.append(y)
 
-      x=x+vox*dt
-      y=y+voy*dt-1/2*ay*dt*dt
-
-      x_list.append(x)
-      y_list.append(y)
-
-    fig, axs=plt.subplots(2,2)
-
-    axs[0,0].plot(t,y_list)
-    axs[0,1].plot(t,x_list)
-    axs[1,0].plot(y_list,x_list)
+    plt.plot(t,x_lista)
+    plt.xlabel("Vrijeme [s]")
+    plt.ylabel("x [m]")
     plt.show()
+
+    plt.plot(t,y_lista)
+    plt.xlabel("Vrijeme [s]")
+    plt.ylabel("y [m]")
+    plt.show()
+
+    plt.plot(t,brzina)
+    plt.xlabel("Vrijeme [s]")
+    plt.ylabel("Brzina [m/s]")
+    plt.show()
+
+    plt.plot(x_lista,y_lista)
+    plt.xlabel("x [m]")
+    plt.ylabel("y [m]")
+    plt.show()
+
 
