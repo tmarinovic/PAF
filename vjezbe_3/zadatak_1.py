@@ -11,4 +11,4 @@ p1.trajectory()
 p1.reset()
 
 #rezultati se razlikuju a odstupanje je:
-error = (domet-abs(p1.range()))/domet*100
+error = (abs(p1.range()-domet))/domet*100
