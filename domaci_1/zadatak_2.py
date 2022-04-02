@@ -83,9 +83,9 @@ def ovisnost_vrijeme_brzina():
     plt.show()
 
 ovisnost_domet_kut()
-ovisnost_vrijeme_kut()()
+ovisnost_vrijeme_kut()
 ovisnot_domet_brzina()
-ovisnost_vrijeme_brzina()()
+ovisnost_vrijeme_brzina()
         
 
 
