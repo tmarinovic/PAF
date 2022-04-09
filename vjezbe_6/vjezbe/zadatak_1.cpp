@@ -1,3 +1,6 @@
+
+/* sve se pokrece sa ./a.exe */
+
 #include <iostream>
 
 using namespace std;
