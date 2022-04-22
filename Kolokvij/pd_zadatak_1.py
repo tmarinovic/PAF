@@ -72,7 +72,7 @@ class projectileDrop:
             self.t_lista.append(self.t)
         return self.h_lista, self.v_lista, self.t_lista    
     
-    def total_time(self,dt=np.linspace(1,100,100)):
+    def total_time(self,dt):
         self.gibanje(dt)
         t_uk = max(self.t)
         return t_uk
