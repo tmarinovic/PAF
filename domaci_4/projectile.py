@@ -153,4 +153,53 @@ class Projecttile:
             self.ay_lista.append(self.ay)
             self.t += self.dt
             self.t_lista.append(self.t)
-        return self.x_lista,self.y_lista           
+        return self.x_lista,self.y_lista         
+    
+    
+    #za drugi zadatak
+    
+    def plot_trajectory(self):
+        plt.plot(self.x_lista, self.y_lista)
+        plt.show()
+
+    def range(self):
+        self.move_2() 
+        return max(self.x_lista)
+
+    def range_rngkt(self):
+        self.runge_kutta() 
+        return max(self.x_lista)
+
+    def analiticki_domet(self):
+        D = ((self.vo**2)*math.sin(2*self.kut))/9.81
+        return D
+
+    def total_time(self):
+        self.runge_kutta()
+        return self.t
+
+    def max_speed(self):
+        self.runge_kutta()
+        return max(self.v_lista)
+    
+    def angle_range(self,xm,ym,r):
+        kutevi = []
+        self.xm = xm
+        self.ym = ym
+        self.r = r
+        dx = []
+        theta = np.arange(0,90,0.01)
+        for i in theta:
+            self.kut = theta*m.pi/180
+            kutevi.append(i)
+            self.init(mass, vo, theta, xo, yo, r, Cd, stranica)
+            self.move_2()
+
+            deltax.append(self.x_lista[-1]- xm)
+            
+        print("Nultocke grafa su kutevi potrebni za pogodit metu")
+        plt.plot(kutevi,dx)
+        plt.xlabel('$\\theta$')
+        plt.ylabel('$\\delta$')
+        plt.grid()
+        plt.show()
