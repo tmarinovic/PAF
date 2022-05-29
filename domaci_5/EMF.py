@@ -45,7 +45,7 @@ class EMField:
             self.v = np.add(self.v,self.a*self.dt)
             self.r = np.add(self.r,self.v*self.dt)
             self.B = self.func(self.t)
-            self.a = self.__akceleracija(self.v,self.B)
+            self.a = self.akceleracija(self.v,self.B)
             self.t += self.dt
             self.x_lista.append(self.r[0])
             self.y_lista.append(self.r[1])
