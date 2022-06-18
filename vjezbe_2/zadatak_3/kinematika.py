@@ -1,74 +1,77 @@
-import numpy as np
-import math
 import matplotlib.pyplot as plt
+from math import pi,sin,cos
 
+def graph(xc,yc,xl,yl,name):
+    plt.plot(xc,yc)
+    plt.xlabel(xl)
+    plt.ylabel(yl)
+    plt.title(name)
 
-def jednoliko_gibanje(sila,masa):
-    t=np.linspace(0,10,100)
-    dt=0.01
-    a=sila/masa
-    x_list=[]
-    v_list=[]
-    x=0
-    v=0
-    for i in range(100):
-        v=v + a*dt
-        x=x + v*dt
+def jednoliko_gibanje(F,m,t_t,dt):
+    t_list = []
+    a_list = []
+    v_list = []
+    s_list = []
+    t = 0
+    a = F/m
+    v = 0
+    s = 0
+    t_list.append(t)
+    a_list.append(a)
+    v_list.append(v)
+    s_list.append(s)
 
-        x_list.append(x)
+    while t <= t_t:
+        v += a*dt
+        s += v*dt
+        t += dt
+        t_list.append(t)
+        a_list.append(a)
         v_list.append(v)
-    fig, axs=plt.subplots(2,2)
-    axs[0,0].plot(t,v_list)
-    axs[0,1].plot(t,x_list)
-    axs[1,0].plot(t,np.repeat(a,100))
-    plt.show()
-
-def kosi_hitac(v0, alfa, x, y):
-    t=np.linspace(0,10,100)
-    dt = 0.01
-    vox = v0*math.cos(math.radians(alfa))
-    voy = v0*math.sin(math.radians(alfa))
-
-    vox_lista = []
-    voy_lista = []
-    brzina = []
-    to = 0
-    t_lista = []
-    x_lista = []
-    y_lista = []
-    for i in range(100):
-        to = dt*i
-        t_lista.append(to)
+        s_list.append(s)
         
-        vox_lista.append(vox)
-        voy = voy - 9.81*dt
-        voy_lista.append(voy)
-        
-        v = math.sqrt(vox**2 + voy**2)
-        brzina.append(v)
-        x = x + vox*dt
-        x_lista.append(x)
-        y = y + voy*dt
-        y_lista.append(y)
-
-    plt.plot(t,x_lista)
-    plt.xlabel("Vrijeme [s]")
-    plt.ylabel("x [m]")
+    plt.figure("Jednoliko gibanje", figsize=(8,8))
+    fig = plt.subplot()
+    plt.subplot(2,2,1)
+    graph(t_list,a_list, "t / [s]", "a / [m/s^2]", " a-t graf")
+    plt.subplot(2,2,2)
+    graph(t_list,v_list, "t / [s]", "v / [m/s]", " v-t graf")
+    plt.subplot(2,2,3)
+    graph(t_list,s_list, "t / [s]", "s / [m]", " s-t graf")
+    plt.subplots_adjust(wspace=0.5, hspace= 0.5)
     plt.show()
 
-    plt.plot(t,y_lista)
-    plt.xlabel("Vrijeme [s]")
-    plt.ylabel("y [m]")
+def kosi_hitac(v0,theta,x0,y0,dt):
+    g = -9.81
+    th = theta*pi/180
+    vx = v0*cos(th)
+    vy = v0*sin(th)
+    x = x0
+    y = y0
+    t = 0
+    t_list = []
+    x_list = []
+    y_list = []
+    t_list.append(t)
+    x_list.append(x0)
+    y_list.append(y0)
+
+    while y >= 0:
+        vy += g*dt 
+        y += vy*dt
+        x += vx*dt
+        t += dt
+        t_list.append(t)
+        x_list.append(x)
+        y_list.append(y)
+
+    plt.figure("Kosi hitac", figsize=(16,8))
+    fig = plt.subplot()
+    plt.subplot(1,2,1)
+    graph(t_list,x_list,"t / [s]", "x / [m]","x - t graf")
+    plt.subplot(1,2,2)
+    graph(t_list,y_list,"t / [s]", "y / [m]","y - t graf")
     plt.show()
-
-    plt.plot(t,brzina)
-    plt.xlabel("Vrijeme [s]")
-    plt.ylabel("Brzina [m/s]")
+    plt.figure("Kosi hitac", figsize=(8,8))
+    graph(x_list,y_list,"x / [s]", "y / [m]","x - y graf")
     plt.show()
-
-    plt.plot(x_lista,y_lista)
-    plt.xlabel("x [m]")
-    plt.ylabel("y [m]")
-    plt.show()
-
-

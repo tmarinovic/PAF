@@ -1,54 +1,46 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import math
+from math import pi, sin, cos
 
-t=np.linspace(0,10,100)
+def graph(xc,yc,xl,yl,name):
+    plt.plot(xc,yc)
+    plt.xlabel(xl)
+    plt.ylabel(yl)
+    plt.title(name)
 
-def kosi_hitac(v0, alfa, x, y):
-    dt = 0.01
-    vox = v0*math.cos(math.radians(alfa))
-    voy = v0*math.sin(math.radians(alfa))
+def kosi_hitac(v0,theta,x0,y0,dt):
+    g = -9.81
+    th = theta*pi/180
+    vx = v0*cos(th)
+    vy = v0*sin(th)
+    x = x0
+    y = y0
+    t = 0
+    t_list = []
+    x_list = []
+    y_list = []
+    t_list.append(t)
+    x_list.append(x0)
+    y_list.append(y0)
 
-    vox_lista = []
-    voy_lista = []
-    brzina = []
-    to = 0
-    t_lista = []
-    x_lista = []
-    y_lista = []
-    for i in range(100):
-        to = dt*i
-        t_lista.append(to)
-        
-        vox_lista.append(vox)
-        voy = voy - 9.81*dt
-        voy_lista.append(voy)
-        
-        v = math.sqrt(vox**2 + voy**2)
-        brzina.append(v)
-        x = x + vox*dt
-        x_lista.append(x)
-        y = y + voy*dt
-        y_lista.append(y)
+    while y >= 0:
+        vy += g*dt 
+        y += vy*dt
+        x += vx*dt
+        t += dt
+        t_list.append(t)
+        x_list.append(x)
+        y_list.append(y)
 
-    plt.plot(t,x_lista)
-    plt.xlabel("Vrijeme [s]")
-    plt.ylabel("x [m]")
+    plt.figure("Grafovi", figsize=(16,8))
+    fig = plt.subplot()
+    plt.subplot(1,2,1)
+    graph(t_list,x_list,"t / [s]", "x / [m]","x - t graf")
+    plt.subplot(1,2,2)
+    graph(t_list,y_list,"t / [s]", "y / [m]","y - t graf")
+    plt.show()
+    plt.figure(figsize=(8,8))
+    graph(x_list,y_list,"x / [s]", "y / [m]","x - y graf")
     plt.show()
 
-    plt.plot(t,y_lista)
-    plt.xlabel("Vrijeme [s]")
-    plt.ylabel("y [m]")
-    plt.show()
-
-    plt.plot(t,brzina)
-    plt.xlabel("Vrijeme [s]")
-    plt.ylabel("Brzina [m/s]")
-    plt.show()
-
-    plt.plot(x_lista,y_lista)
-    plt.xlabel("x [m]")
-    plt.ylabel("y [m]")
-    plt.show()
-    
-kosi_hitac(50, 60, 0, 0)
+kosi_hitac(10,30,1,1,0.01)

@@ -1,41 +1,46 @@
 import matplotlib.pyplot as plt
-import numpy as np
-from math import *
 
-t=np.linspace(0,10,100)
-dt=0.01
+def graph(xc,yc,xl,yl,name):
+    plt.plot(xc,yc)
+    plt.xlabel(xl)
+    plt.ylabel(yl)
+    plt.title(name)
 
-def jednoliko_gibanje(sila,masa):
-    a=sila/masa
-    x_list=[]
-    v_list=[]
-    x=0
-    v=0
-    for i in range(100):
-        v=v + a*dt
-        x=x + v*dt
+def calculate(F,m,x0,t_t,dt):
+    t_list = []
+    a_list = []
+    v_list = []
+    s_list = []
+    t = 0
+    a = F/m
+    v = 0
+    s = x0
+    t_list.append(t)
+    a_list.append(a)
+    v_list.append(v)
+    s_list.append(s)
 
-        x_list.append(x)
+    while t <= t_t:
+        v += a*dt
+        s += v*dt
+        t += dt
+        t_list.append(t)
+        a_list.append(a)
         v_list.append(v)
-    fig, axs=plt.subplots(2,2)
-    axs[0,0].plot(t,v_list)
-    axs[0,0].set_title('v-t graf')
-    axs[0,0].set_xlabel('$t | [s]$')
-    axs[0,0].set_ylabel('$x | [m]$')
-    
-    axs[0,1].plot(t,x_list)
-    axs[0,1].set_title('x-t graf')
-    axs[0,1].set_xlabel('$t | [s]$')
-    axs[0,1].set_ylabel('$v | [m/s]$')
-
-    
-    axs[1,0].plot(t,np.repeat(a,100))
-    axs[1,0].set_title('a-t graf')
-    axs[1,0].set_xlabel('$t | [s]$')
-    axs[1,0].set_ylabel('$a | [m/s^2]$')
+        s_list.append(s)
+        
+    plt.figure("Grafovi", figsize=(8,8))
+    fig = plt.subplot()
+    plt.subplot(2,2,1)
+    graph(t_list,a_list, "t / [s]", "a / [m/s^2]", " a-t graf")
+    plt.subplot(2,2,2)
+    graph(t_list,v_list, "t / [s]", "v / [m/s]", " v-t graf")
+    plt.subplot(2,2,3)
+    graph(t_list,s_list, "t / [s]", "s / [m]", " s-t graf")
+    plt.subplots_adjust(wspace=0.5, hspace= 0.5)
     plt.show()
-    
-jednoliko_gibanje(10,7)
+
+calculate(10,5,0,10,0.01)
 
 
 
