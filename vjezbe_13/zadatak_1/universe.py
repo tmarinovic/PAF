@@ -1,56 +1,50 @@
-import math as m 
-import numpy as np 
-import matplotlib.pyplot as plt 
-
-
-class Planet:
-
-
-    def __init__(self, name, color, mass, radius, r0, v0):
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+ 
+class Planet: 
+    def __init__(self,name,color,m,v,r): 
         self.name = name
         self.color = color
-        self.mass = mass
-        self.r0 = r0 
-        self.v0 = v0
-        self.radius = radius
-        self.x_x = []
-        self.y_y = []
-
-
+        self.m = m
+        self.v0 = v
+        self.v = v
+        self.r0 = r
+        self.r = r
+        self.x_list = []
+        self.y_list = []
+        self.x_list.append(self.r[0])
+        self.y_list.append(self.r[1])
+    
 class Universe:
-
-
     def __init__(self):
-        self.dt = 0.0
-        self.G = 6.67408 * (10**(-11))
-        self.t = 0.0
-        self.d = 0.0
-        self.p_planets = []
+        self.dt = 60*6*24
+        self.G =  6.67408 * (10**(-11))
+        self.t = 0
+        self.planets = []
 
+    def add_planet(self,planet):
+        self.planets.append(planet)
 
-    def add_planet(self, planet):
-        self.p_planets.append(planet)
+    def __acc(self,pl1,pl2):
+        d = math.sqrt((pl1.r[0]-pl2.r[0])**2 + (pl1.r[1]-pl2.r[1])**2)
+        a = -self.G * pl2.m/(d**3) * np.subtract(pl1.r,pl2.r)
+        return a
 
+    def __interact(self):
+        for p in self.planets:
+            p.a = np.array((0,0))
+            for p2 in self.planets:
+                if p2 != p:
+                    a = self.__acc(p,p2)
+                    p.a = np.add(p.a,a)    
+            p.v = np.add(p.v,p.a * self.dt)
+            p.r = np.add(p.r,p.v * self.dt)
+            p.x_list.append(p.r[0])
+            p.y_list.append(p.r[1])
 
-    def __acceleration(self, m1, m2, r1, r2):
-        self.d = m.sqrt((r1[0] - r2[0])**2 + (r1[1] - r2[1])**2)
-        return ((- self.G * m2) / (self.d**3)) * np.subtract(r1, r2)
-
-
-    def evolve(self, T, dt):
-        self.dt = dt
-        while self.t <= T:
-            for planet in self.p_planets:
-                planet.a = np.array([0, 0])
-                for p2 in self.p_planets:
-                    if p2 == planet:
-                        a = 0.0
-                    else:
-                        a = (self.__acceleration(planet.mass, p2.mass, planet.r0, p2.r0)) 
-                        planet.a = np.add(planet.a, a)
-                planet.v0 = np.add(planet.v0, planet.a * self.dt)
-                planet.r0 = np.add(planet.r0, planet.v0 * self.dt)
-                planet.x_x.append(planet.r0[0])
-                planet.y_y.append(planet.r0[1])
-
+    def interact(self,t):
+        while self.t <= t:
+            self.__interact()
             self.t += self.dt
