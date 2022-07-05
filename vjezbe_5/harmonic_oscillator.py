@@ -1,82 +1,106 @@
-import matplotlib.pyplot as plt 
-import numpy as np
+import matplotlib.pyplot as plt
 import math
 
-class harmonic_oscillator:
-    def __init__(self, dt, k, m, vo, xo):
+class HarmonicOscillator:
+    def init(self,m,k,v0,A,dt):
+        self.m = m
+        self.k = k
+        self.ai = (-k/m) * A 
+        self.vi = v0
+        self.x0 = A
+        self.xi = self.x0
         self.dt = dt
-        self.k = k 
-        self.m = m 
-        self.vo = vo
-        self.xo = xo
-        self.to = 0
-
-    def reset(self):
-        dic = vars(self) 
-        for i in dic.keys():
-            dic[i] = 0
-        plt.clf()
-
-    def oscillate(self, total_t):
+        self.ti = 0
         self.t = []
-        self.x = []
         self.a = []
         self.v = []
-        t = 0
-        
-        while t < total_t:
-            a = (-self.k*self.xo)/self.m
-            self.vo = self.vo + a*self.dt
-            self.xo = self.xo + self.vo*self.dt
-            t += self.dt
-            self.t.append(t)
-            self.x.append(self.xo)
-            self.a.append(a)
-            self.v.append(self.vo)
-        return(self.t, self.x)
+        self.x = []
+        self.t.append(self.ti)
+        self.a.append(self.ai)
+        self.v.append(self.vi)
+        self.x.append(self.xi)
+
+    def reset(self):
+        del self.m
+        del self.k
+        del self.ai
+        del self.vi
+        del self.xi
+        del self.dt
+        del self.ti
+        del self.t
+        del self.a
+        del self.v
+        del self.x
+
+    ## privatna metoda koji cini samo jedan mali pomak za vrijeme dt
+    def __move(self):      
+        self.vi = self.vi + self.ai * self.dt
+        self.xi = self.xi + self.vi * self.dt
+        self.ai = (-self.k/self.m) * self.xi
+        self.ti += self.dt
+        self.v.append(self.vi)
+        self.x.append(self.xi)
+        self.a.append(self.ai)
+        self.t.append(self.ti)
+
+    ## metoda koja racuna putanju za vrijeme koje korisnik unese
+    def oscillate(self, t):
+        while self.ti <= t:
+            self.__move()
+  
+        return self.x, self.t
 
     def plot_trajectory(self):
-        fig, (ax1, ax2, ax3) = plt.subplots(1, 3)
-        ax1.plot(self.t, self.x, 'b')
-        ax1.set_title('x-t graf')
-        ax2.plot(self.t, self.v, 'b')
-        ax2.set_title('v-t graf')
-        ax3.plot(self.t, self.a, 'b')
-        ax3.set_title('a-t graf')
-        plt.pause(10)
+        plt.figure("Harmonic oscilator")
+        fig = plt.subplot()
+        plt.subplot(2,2,1)
+        plt.plot(self.t,self.x)
+        plt.xlabel("t [s]")
+        plt.ylabel("x [m]")
+        plt.title("x-t graf")
+        plt.subplot(2,2,2)
+        plt.plot(self.t,self.v)
+        plt.xlabel("t [s]")
+        plt.ylabel("v [m/s]")
+        plt.title("v-t graf")
+        plt.subplot(2,2,3)
+        plt.plot(self.t,self.a)
+        plt.xlabel("t [s]")
+        plt.ylabel("a [m/s^2]")
+        plt.title("a-t graf")
+        plt.subplots_adjust(wspace = 0.4, hspace = 0.6)
+        plt.show()
 
-    def analiticki(self,dt,t=2):
-        self.x=[]
-        self.t=[]
-        self.omega=math.sqrt(self.k/self.m)
-        self.to=0
-        
-        while self.to <= t:
-            x=self.xo*math.cos(self.omega*self.to)
-            self.to += dt
-            self.x.append(self.xo)
-            self.t.append(self.to)
-        return self.x,self.t
+    ## metoda koja analiticki racuna putanju
+    def analitic_x(self,t):
+        self.x = []
+        self.t = []
+        self.omega = math.sqrt(self.k/self.m)
+        self.fi = math.pi/2
+        self.ti = 0
+        while self.ti <= t:
+            xi = self.xi * math.sin(self.omega*self.ti + self.fi)
+            self.ti += self.dt
+            self.x.append(xi)
+            self.t.append(self.ti)
             
-    def preciznost(self,dt,total_t):
-        self.oscillate(total_t)
-        plt.scatter(self.t,self.x)
-        plt.title('x-t graf')
-
-    def period_titranja(self,dt,t):
-        A = self.xo
+        return self.x, self.t
+    
+    def period(self):
         T = 0
-        self.oscillate(t)
-        for xi in self.x:
-                if xi > 0:
-                    T += dt
-                else:
-                    break
+        while True:
+            self.__move()
+            if self.xi < 0:
+                T = 0
+                break
+        while True:
+            self.__move()
+            T += self.dt
+            if self.xi > 0:
+                break
         return 2*T
-        
 
-    def analiticki_period(self):
-        period = 2*math.pi*math.sqrt(self.m/self.k)
-        print("Analiticki period titranja iznosi {}.".format(period))
-        
+    def period_analitic(self):
+        return 2*math.pi*math.sqrt(self.m/self.k)
 
